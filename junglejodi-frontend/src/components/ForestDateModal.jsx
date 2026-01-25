@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import useStore from '../store/useStore';
+import useAppStore from '../store/useAppStore';
 import { X, TreePine, Waves, Moon, Sparkles } from 'lucide-react';
 
 const InteractionModal = ({ match, onClose }) => {
-    const { interact, theme } = useStore();
+    const { interact, theme } = useAppStore();
     const isNight = theme === 'night';
 
     const activities = [

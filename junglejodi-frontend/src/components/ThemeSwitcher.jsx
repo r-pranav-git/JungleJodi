@@ -1,8 +1,8 @@
-import useStore from '../store/useStore';
+import useAppStore from '../store/useAppStore';
 import { motion } from 'framer-motion';
 
 const ThemeSwitcher = () => {
-    const { theme, setTheme } = useStore();
+    const { theme, setTheme } = useAppStore();
 
     const themes = [
         { id: 'spring', label: 'Spring', emoji: '🌸', color: 'bg-green-400/20' },

@@ -2,18 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Pacifico&display=swap');
 
 :root {
-  --forest-green: #2d5a27;
-  --mist-blue: #a8dadc;
+    --forest-green: #2d5a27;
+    --mist-blue: #a8dadc;
 }
 
 body {
-  margin: 0;
-  font-family: 'Outfit', sans-serif;
-  overflow-x: hidden;
-  color: #1a2a1a;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    color: #1a2a1a;
 }
 
-.theme-spring {
+/* .theme-spring {
+  background-color: #2d5a27;
   background-image: url('/spring.png');
   background-attachment: fixed;
   background-size: cover;
@@ -22,6 +23,7 @@ body {
 }
 
 .theme-monsoon {
+  background-color: #1e3a8a;
   background-image: url('/monsoon.png');
   background-attachment: fixed;
   background-size: cover;
@@ -30,14 +32,15 @@ body {
 }
 
 .theme-night {
+  background-color: #0f172a;
   background-image: url('/night.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
   min-height: 100vh;
-}
+} */
 
-.glass-card {
+/* .glass-card {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -52,59 +55,111 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 2.5rem;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-}
+} */
 
 .text-glow {
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .forest-title {
-  font-family: 'Pacifico', cursive;
+    font-family: 'Pacifico', cursive;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(74, 222, 128, 0.5);
-  border-radius: 4px;
+    background: rgba(74, 222, 128, 0.5);
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(74, 222, 128, 0.8);
+    background: rgba(74, 222, 128, 0.8);
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
+/* Mystical Forest Animations */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-200%) skewX(-12deg);
+    }
 
-  50% {
-    transform: translateY(-15px) rotate(1deg);
-  }
-
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
+    100% {
+        transform: translateX(200%) skewX(-12deg);
+    }
 }
 
-.animate-float {
-  animation: float 5s ease-in-out infinite;
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
 }
 
-.btn-premium {
-  background: linear-gradient(135deg, #4ade80 0%, #059669 100%);
-  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
-  transition: all 0.3s ease;
+@keyframes mystical-float {
+
+    0%,
+    100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+
+    33% {
+        transform: translateY(-20px) translateX(10px) rotate(5deg);
+    }
+
+    66% {
+        transform: translateY(-10px) translateX(-10px) rotate(-5deg);
+    }
 }
 
-.btn-premium:hover {
-  box-shadow: 0 6px 20px rgba(5, 150, 105, 0.5);
-  transform: translateY(-2px);
+@keyframes orb-float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.2;
+    }
+
+    25% {
+        transform: translate(30px, -20px) scale(1.1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translate(-20px, 20px) scale(0.9);
+        opacity: 0.3;
+    }
+
+    75% {
+        transform: translate(20px, 30px) scale(1.05);
+        opacity: 0.35;
+    }
+}
+
+.animate-shimmer {
+    animation: shimmer 3s infinite;
+}
+
+.animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-mystical-float {
+    animation: mystical-float 6s ease-in-out infinite;
+}
+
+.animate-orb-float {
+    animation: orb-float 8s ease-in-out infinite;
 }

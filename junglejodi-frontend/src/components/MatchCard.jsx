@@ -1,9 +1,9 @@
-import useStore from '../store/useStore';
+import useAppStore from '../store/useAppStore';
 import { Heart, Activity, MapPin, Zap, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const MatchCard = ({ match, onInteract }) => {
-    const { theme } = useStore();
+    const { theme } = useAppStore();
     const isNight = theme === 'night';
 
     return (
@@ -65,7 +65,7 @@ const MatchCard = ({ match, onInteract }) => {
 
                 <button
                     onClick={() => onInteract(match)}
-                    className="w-full py-4 rounded-2xl btn-premium text-white font-black uppercase tracking-widest flex items-center justify-center gap-2 group/btn active:scale-95"
+                    className="w-full py-4 rounded-2xl bg-green-600 hover:bg-green-700 border-4 border-green-800 text-white font-black uppercase tracking-widest flex items-center justify-center gap-2 group/btn active:scale-95 shadow-xl transition-all"
                 >
                     <Heart size={20} className="group-hover/btn:fill-white transition-all" />
                     Bond Now

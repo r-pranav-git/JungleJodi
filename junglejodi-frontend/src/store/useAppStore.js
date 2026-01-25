@@ -1,9 +1,7 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import { fetchMatches as apiFetchMatches, createProfile as apiCreateProfile, interactWithMatch as apiInteract } from '../utils/api';
 
-const API_BASE = 'http://localhost:5000/api';
-
-const useStore = create((set, get) => ({
+const useAppStore = create((set, get) => ({
     user: null,
     matches: [],
     theme: 'spring', // spring, monsoon, night
@@ -16,8 +14,8 @@ const useStore = create((set, get) => ({
     fetchMatches: async (userId) => {
         set({ isLoading: true });
         try {
-            const res = await axios.get(`${API_BASE}/matches/${userId}`);
-            set({ matches: res.data, isLoading: false });
+            const matches = await apiFetchMatches(userId);
+            set({ matches, isLoading: false });
         } catch (error) {
             console.error('Failed to fetch matches', error);
             set({ isLoading: false });
@@ -27,9 +25,9 @@ const useStore = create((set, get) => ({
     createProfile: async (profileData) => {
         set({ isLoading: true });
         try {
-            const res = await axios.post(`${API_BASE}/profiles`, profileData);
-            set({ user: res.data, isLoading: false });
-            return res.data;
+            const newUser = await apiCreateProfile(profileData);
+            set({ user: newUser, isLoading: false });
+            return newUser;
         } catch (error) {
             console.error('Failed to create profile', error);
             set({ isLoading: false });
@@ -38,8 +36,8 @@ const useStore = create((set, get) => ({
 
     interact: async (type, matchName) => {
         try {
-            const res = await axios.post(`${API_BASE}/interact`, { type, matchName });
-            set({ notification: res.data.message });
+            const res = await apiInteract(type, matchName);
+            set({ notification: res.message });
             setTimeout(() => set({ notification: null }), 5000);
         } catch (error) {
             console.error('Interaction failed', error);
@@ -47,4 +45,4 @@ const useStore = create((set, get) => ({
     }
 }));
 
-export default useStore;
+export default useAppStore;

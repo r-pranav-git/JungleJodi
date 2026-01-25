@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import useStore from '../store/useStore';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAppStore from '../store/useAppStore';
 import { Leaf, Sun, Moon, Compass, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const ProfileForm = () => {
-    const { createProfile, theme } = useStore();
+const Profile = () => {
+    const navigate = useNavigate();
+    const { createProfile, theme } = useAppStore();
     const [formData, setFormData] = useState({
         species: '',
         habitat: 'land',
@@ -13,9 +15,10 @@ const ProfileForm = () => {
         personality: ''
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        createProfile(formData);
+        await createProfile(formData);
+        navigate('/matches');
     };
 
     const isNight = theme === 'night';
@@ -24,7 +27,7 @@ const ProfileForm = () => {
         <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`max-w-xl w-full mx-auto ${isNight ? 'glass-card-dark text-white' : 'glass-card text-gray-800'} p-10 relative overflow-hidden animate-float`}
+            className={`max-w-xl w-full mx-auto ${isNight ? 'glass-card-dark text-white' : 'glass-card text-gray-800'} p-10 relative overflow-hidden my-10`}
         >
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-green-400/20 rounded-full blur-3xl" />
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-400/20 rounded-full blur-3xl" />
@@ -32,7 +35,7 @@ const ProfileForm = () => {
             <div className="relative">
                 <h2 className={`text-4xl font-extrabold text-center mb-8 flex items-center justify-center gap-3 ${isNight ? 'text-green-300' : 'text-green-800'}`}>
                     <Sparkles className="animate-pulse" />
-                    <span className="forest-title">JungleJodi</span>
+                    <span className="forest-title">Identify Yourself</span>
                 </h2>
 
                 <p className="text-center mb-10 opacity-80 font-medium">Create your animal spirit to begin the adventure...</p>
@@ -45,8 +48,8 @@ const ProfileForm = () => {
                                 type="text"
                                 required
                                 className={`w-full px-6 py-4 rounded-2xl border-2 transition-all outline-none text-lg ${isNight
-                                        ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
-                                        : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
+                                    ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
+                                    : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
                                     }`}
                                 placeholder="What animal are you?"
                                 value={formData.species}
@@ -61,8 +64,8 @@ const ProfileForm = () => {
                             <label className="block text-sm font-bold mb-2 ml-1 opacity-70 uppercase tracking-wider">Realm</label>
                             <select
                                 className={`w-full px-6 py-4 rounded-2xl border-2 transition-all outline-none ${isNight
-                                        ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
-                                        : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
+                                    ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
+                                    : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
                                     }`}
                                 value={formData.habitat}
                                 onChange={(e) => setFormData({ ...formData, habitat: e.target.value })}
@@ -76,8 +79,8 @@ const ProfileForm = () => {
                             <label className="block text-sm font-bold mb-2 ml-1 opacity-70 uppercase tracking-wider">Nature</label>
                             <select
                                 className={`w-full px-6 py-4 rounded-2xl border-2 transition-all outline-none ${isNight
-                                        ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
-                                        : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
+                                    ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
+                                    : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
                                     }`}
                                 value={formData.foodHabit}
                                 onChange={(e) => setFormData({ ...formData, foodHabit: e.target.value })}
@@ -97,8 +100,8 @@ const ProfileForm = () => {
                                     type="button"
                                     onClick={() => setFormData({ ...formData, activityTime: type })}
                                     className={`py-4 rounded-2xl border-2 flex items-center justify-center gap-3 font-bold transition-all ${formData.activityTime === type
-                                            ? (isNight ? 'bg-green-500 border-green-400 text-white shadow-lg shadow-green-500/30' : 'bg-green-600 border-green-500 text-white shadow-lg shadow-green-600/30')
-                                            : (isNight ? 'bg-slate-900/50 border-white/10 hover:border-white/30' : 'bg-white/50 border-green-100 hover:border-green-200')
+                                        ? (isNight ? 'bg-green-500 border-green-400 text-white shadow-lg shadow-green-500/30' : 'bg-green-600 border-green-500 text-white shadow-lg shadow-green-600/30')
+                                        : (isNight ? 'bg-slate-900/50 border-white/10 hover:border-white/30' : 'bg-white/50 border-green-100 hover:border-green-200')
                                         }`}
                                 >
                                     {type === 'diurnal' ? <Sun size={20} /> : <Moon size={20} />}
@@ -113,8 +116,8 @@ const ProfileForm = () => {
                         <input
                             type="text"
                             className={`w-full px-6 py-4 rounded-2xl border-2 transition-all outline-none ${isNight
-                                    ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
-                                    : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
+                                ? 'bg-slate-900/50 border-white/10 focus:border-green-400 text-white'
+                                : 'bg-white/50 border-green-100 focus:border-green-500 text-gray-800'
                                 }`}
                             placeholder="e.g. Brave, Mysterious, Gentle"
                             value={formData.personality}
@@ -124,7 +127,7 @@ const ProfileForm = () => {
 
                     <button
                         type="submit"
-                        className="w-full py-5 rounded-2xl btn-premium text-white font-black text-xl flex items-center justify-center gap-3 tracking-widest uppercase active:scale-95"
+                        className="w-full py-5 rounded-2xl bg-green-600 hover:bg-green-700 border-4 border-green-800 text-white font-black text-xl flex items-center justify-center gap-3 tracking-widest uppercase active:scale-95 transition-transform shadow-xl"
                     >
                         <Compass className="animate-spin-slow" /> Awaken Spirit
                     </button>
@@ -134,4 +137,4 @@ const ProfileForm = () => {
     );
 };
 
-export default ProfileForm;
+export default Profile;
