@@ -152,3 +152,24 @@ export const resetPassword = async (req, res) => {
         res.status(500).json({ status: 'error', message: error.message });
     }
 };
+
+// @desc    Check if username exists
+// @route   GET /api/auth/check-username
+export const checkUsername = async (req, res) => {
+    const { username } = req.query;
+
+    try {
+        if (!username) {
+            return res.status(400).json({ status: 'error', message: 'Username is required' });
+        }
+
+        const user = await User.findOne({ username });
+        if (user) {
+            return res.json({ status: 'success', data: { exists: true, message: 'Username is already taken' } });
+        } else {
+            return res.json({ status: 'success', data: { exists: false, message: 'Username is available' } });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+};

@@ -4,7 +4,7 @@ import Animal from '../models/Animal.js';
 // @desc    Get available animals with filters
 // @route   GET /api/animals
 export const getAnimals = async (req, res) => {
-    const { season, activity_period, night_mode, exclude_ids } = req.query;
+    const { season, activity_period, night_mode, exclude_ids,limit } = req.query;
 
     let query = {};
 

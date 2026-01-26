@@ -1,4 +1,63 @@
 import User from '../models/User.js';
+import Animal from '../models/Animal.js';
+import mongoose from 'mongoose';
+
+// @desc    Get users with their selected animals (filtered by animal criteria)
+// @route   GET /api/users
+export const getUsers = async (req, res) => {
+    const { season, activity_period, night_mode, exclude_ids, limit } = req.query;
+
+    let animalQuery = {};
+
+    if (season) {
+        animalQuery['metadata.season_active'] = season;
+    }
+
+    if (night_mode === 'true') {
+        animalQuery['ecosystem_stats.activity_period'] = 'Nocturnal';
+    } else if (activity_period) {
+        animalQuery['ecosystem_stats.activity_period'] = activity_period;
+    }
+
+    if (exclude_ids) {
+        const ids = exclude_ids.split(',').map(id => {
+            try {
+                return new mongoose.Types.ObjectId(id.trim());
+            } catch (e) {
+                return null;
+            }
+        }).filter(id => id !== null);
+
+        if (ids.length > 0) {
+            animalQuery._id = { $nin: ids };
+        }
+    }
+
+    const limitNum = parseInt(limit) || 12;
+
+    try {
+        // Find animals matching the criteria
+        const animals = await Animal.find(animalQuery).limit(limitNum);
+        const animalIds = animals.map(animal => animal._id);
+
+        // Find users with selected animals in the filtered list, excluding current user
+        const users = await User.find({
+            _id: { $ne: req.user._id },
+            selected_animal_id: { $in: animalIds }
+        }).populate('selected_animal_id').select('-password_hash');
+
+        res.json({
+            status: 'success',
+            data: {
+                users,
+                total: users.length,
+                has_more: false // Simplified for hackathon
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+};
 
 // @desc    Get current user profile
 // @route   GET /api/users/me
