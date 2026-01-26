@@ -115,7 +115,7 @@ Some interactions are simulated rather than real-time to maintain simplicity and
 ## 🎥 Demo Video
 
 🔗 **Demo Video Link:**  
-(To be added)
+https://1drv.ms/v/c/fb3150b75b70c580/IQCdTPKcmu9nRbTaXxl-v9JoATgLRhk2loqpegeQgVbDtnQ?e=lmKlQ5
 
 ---
 
