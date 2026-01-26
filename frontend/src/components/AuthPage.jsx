@@ -2,9 +2,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import ForestBackground from './ForestBackground';
 import Soundscape from './Soundscape';
-// import { authAPI, animalAPI, userAPI } from '../utils/api';
+import { authAPI, animalAPI, userAPI } from '../utils/api';
 import { Eye, EyeOff, ChevronLeft, Volume2, VolumeX } from 'lucide-react';
 
 // Reusable UI components
@@ -565,6 +566,7 @@ const ForgotPasswordForm = ({
 // Multi-step auth flow
 const AuthPage = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [step, setStep] = useState('gate'); // gate | register | login | forgot | onboarding-animal | onboarding-territory | onboarding-seeking
   const [isLoading, setIsLoading] = useState(false);
@@ -698,8 +700,7 @@ const AuthPage = () => {
         password: formData.password,
       });
       
-      localStorage.setItem('jj_token', response.data.token);
-      localStorage.setItem('jj_user', JSON.stringify(response.data.user));
+      login(response.data.user, response.data.token);
       navigate('/forest');
     } catch (error) {
       setFormErrors({ general: error.message });
@@ -756,8 +757,7 @@ const AuthPage = () => {
 
       const response = await authAPI.register(registerData);
       
-      localStorage.setItem('jj_token', response.data.token);
-      localStorage.setItem('jj_user', JSON.stringify(response.data.user));
+      login(response.data.user, response.data.token);
       navigate('/forest');
     } catch (error) {
       setFormErrors({ general: error.message });
