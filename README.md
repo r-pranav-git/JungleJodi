@@ -85,32 +85,42 @@ The platform replaces traditional chat-based communication with imaginative, for
 cd junglejodi-backend
 npm install
 node src/index.js
+```
 
-**Backend runs at:**
+Backend runs at:
 http://localhost:5000
 
-### **Frontend Setup**
+### Frontend Setup
+
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
-**Frontend runs at:**
+Frontend runs at:
 http://localhost:5173
 
 
-###** ⚠️ Assumptions, Limitations & Known Issues**
--The application is designed primarily for demonstration and hackathon purposes.
+---
 
--Security mechanisms are intentionally lightweight to prioritize rapid development.
+## ⚠️ Assumptions, Limitations & Known Issues
 
--Some interactions are simulated rather than real-time to maintain simplicity and stability.
+The application is designed primarily for demonstration and hackathon purposes.  
+Security mechanisms are intentionally lightweight to prioritize rapid development.  
+Some interactions are simulated rather than real-time to maintain simplicity and stability.
 
-### **🎥 Demo Video**
+---
 
-🔗 Demo Video Link:
+## 🎥 Demo Video
 
-### 🎯** Project Summary**
+🔗 **Demo Video Link:**  
+(To be added)
+
+---
+
+## 🎯 Project Summary
 
 JungleJodi emphasizes creativity, storytelling, and immersive design over conventional dating app mechanics. By blending ecological logic with playful forest-themed interactions, the platform delivers a unique and memorable interpretation of matchmaking in a forest ecosystem.
 
-**🌿 Built with creativity, logic, and a wild heart.**__
+🌿 *Built with creativity, logic, and a wild heart.*
