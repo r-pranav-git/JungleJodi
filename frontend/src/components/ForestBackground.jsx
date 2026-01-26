@@ -126,7 +126,7 @@ const ForestBackground = ({ children, timeOfDay = 'auto' }) => {
       </motion.div>
 
       {/* Children content */}
-      <div className="relative z-10">
+      <div className={`relative z-10 ${isNight ? 'text-white' : 'text-black'}`}>
         {children}
       </div>
     </div>

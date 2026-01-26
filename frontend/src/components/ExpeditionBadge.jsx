@@ -5,34 +5,10 @@ import PropTypes from 'prop-types';
 import { Users } from 'lucide-react';
 import { matchAPI } from '../utils/api';
 
-const ExpeditionBadge = ({ onClick }) => {
-  const [activeMatches, setActiveMatches] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  const loadMatches = async () => {
-    try {
-      const response = await matchAPI.getMatches({ status: 'active' });
-      setActiveMatches(response.data.matches.length);
-    } catch (error) {
-      console.error('Failed to load matches:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadMatches();
-    
-    // Refresh every 30 seconds
-    const interval = setInterval(loadMatches, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  if (loading) return null;
-
+const ExpeditionBadge = ({ count, onClick }) => {
   return (
     <AnimatePresence>
-      {activeMatches > 0 && (
+      {count > 0 && (
         <motion.button
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -52,7 +28,7 @@ const ExpeditionBadge = ({ onClick }) => {
             className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full 
               flex items-center justify-center text-xs font-bold text-black"
           >
-            {activeMatches}
+            {count}
           </motion.div>
         </motion.button>
       )}

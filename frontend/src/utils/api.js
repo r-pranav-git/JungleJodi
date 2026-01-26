@@ -247,6 +247,20 @@ export const userAPI = {
     const response = await API.patch('/users/preferences', preferences);
     return response;
   },
+
+  /**
+   * Get available users for swipe deck with filtering
+   * @param {Object} filters - { season, activity_period, limit, exclude_ids, night_mode, rarity }
+   * @returns {Promise<Object>} - { animals[], total, has_more }
+   */
+  async getUsers(filters = {}) {
+    const response = await API.get('/users', { 
+      params: filters,
+      // Increase timeout for complex queries
+      timeout: filters.exclude_ids ? 15000 : 10000 
+    });
+    return response;
+  },
 };
 
 /**

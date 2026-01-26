@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 const SEASONS = [
-  { id: 'spring', icon: '🌸', label: 'Spring' },
-  { id: 'summer', icon: '☀️', label: 'Summer' },
-  { id: 'fall', icon: '🍂', label: 'Fall' },
-  { id: 'winter', icon: '❄️', label: 'Winter' },
+  { id: 'Spring', icon: '🌸', label: 'Spring' },
+  { id: 'Summer', icon: '☀️', label: 'Summer' },
+  { id: 'Fall', icon: '🍂', label: 'Fall' },
+  { id: 'Winter', icon: '❄️', label: 'Winter' },
 ];
 
 const SeasonToggle = ({ currentSeason, onSeasonChange }) => {

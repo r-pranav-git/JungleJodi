@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, memo } from 'react';
 import { Howl } from 'howler';
 import PropTypes from 'prop-types';
 
-const Soundscape = ({ isEnabled = true, season = 'spring' }) => {
+const Soundscape = ({ isEnabled = true, season = 'Spring' }) => {
   const ambientSound = useRef(null);
   const isNightRef = useRef(false);
 
@@ -31,10 +31,10 @@ const Soundscape = ({ isEnabled = true, season = 'spring' }) => {
 
     // Add seasonal sound layers
     const seasonSounds = {
-      spring: new Howl({ src: ['/sounds/birds-spring.mp3'], loop: true, volume: 0.2 }),
-      summer: new Howl({ src: ['/sounds/crickets-summer.mp3'], loop: true, volume: 0.15 }),
-      fall: new Howl({ src: ['/sounds/wind-fall.mp3'], loop: true, volume: 0.25 }),
-      winter: new Howl({ src: ['/sounds/winter-silent.mp3'], loop: true, volume: 0.1 }),
+      Spring: new Howl({ src: ['/sounds/birds-spring.mp3'], loop: true, volume: 0.2 }),
+      Summer: new Howl({ src: ['/sounds/crickets-summer.mp3'], loop: true, volume: 0.15 }),
+      Fall: new Howl({ src: ['/sounds/wind-fall.mp3'], loop: true, volume: 0.25 }),
+      Winter: new Howl({ src: ['/sounds/winter-silent.mp3'], loop: true, volume: 0.1 }),
     };
 
     seasonSounds[season].play();
@@ -57,7 +57,7 @@ const Soundscape = ({ isEnabled = true, season = 'spring' }) => {
 
 Soundscape.propTypes = {
   isEnabled: PropTypes.bool,
-  season: PropTypes.oneOf(['spring', 'summer', 'fall', 'winter']),
+  season: PropTypes.oneOf(['Spring', 'Summer', 'Fall', 'Winter']),
 };
 
 export default memo(Soundscape);

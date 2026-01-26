@@ -11,39 +11,49 @@ import ExpeditionBadge from './ExpeditionBadge';
 import NightModeEasterEgg from './NightModeEasterEgg';
 import MatchBurst from './MatchBurst';
 import ExpeditionParty from './ExpeditionParty';
-import { animalAPI, matchAPI } from '../utils/api';
+import ActiveMatchesModal from './ActiveMatchesModal';
+import { animalAPI, matchAPI, userAPI } from '../utils/api';
 import { LogOut, Settings, Moon } from 'lucide-react';
 
 const ForestScreen = () => {
   const { user, logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [animals, setAnimals] = useState([]);
-  const [currentSeason, setCurrentSeason] = useState('spring');
+  const [currentSeason, setCurrentSeason] = useState('Spring');
   const [currentAnimalIndex, setCurrentAnimalIndex] = useState(0);
   const [showMatchBurst, setShowMatchBurst] = useState(false);
   const [newMatch, setNewMatch] = useState(null);
+  const [activeMatches, setActiveMatches] = useState([]);
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [showActiveMatchesModal, setShowActiveMatchesModal] = useState(false);
   const [showExpedition, setShowExpedition] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [nightMode, setNightMode] = useState(false);
+  // Initialize night mode based on current time
+  const [nightMode, setNightMode] = useState(() => {
+    const hour = new Date().getHours();
+    return hour >= 18 || hour < 6;
+  });
+
+
 
   // Determine current season
   const getSeason = () => {
     const month = new Date().getMonth();
-    if (month >= 2 && month <= 4) return 'spring';
-    if (month >= 5 && month <= 7) return 'summer';
-    if (month >= 8 && month <= 10) return 'fall';
-    return 'winter';
+    if (month >= 2 && month <= 4) return 'Spring';
+    if (month >= 5 && month <= 7) return 'Summer';
+    if (month >= 8 && month <= 10) return 'Fall';
+    return 'Winter';
   };
 
   // Load animals for swipe deck
   const loadAnimals = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await animalAPI.getAnimals({
+      const response = await userAPI.getUsers({
         season: currentSeason,
         exclude_ids: user?.matched_animal_ids?.join(',') || ''
       });
-      setAnimals(response.data.animals);
+      setAnimals(response.data.users);
       setCurrentAnimalIndex(0);
     } catch (error) {
       console.error('Failed to load animals:', error);
@@ -57,6 +67,23 @@ const ForestScreen = () => {
     loadAnimals();
   }, [loadAnimals]);
 
+  // Load active matches
+  const loadMatches = useCallback(async () => {
+    try {
+      const response = await matchAPI.getMatches({ status: 'active' });
+      setActiveMatches(response.data.matches);
+    } catch (error) {
+      console.error('Failed to load matches:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMatches();
+    // Refresh matches periodically
+    const interval = setInterval(loadMatches, 30000);
+    return () => clearInterval(interval);
+  }, [loadMatches]);
+
   // Handle swipe and match detection
   const handleSwipe = async (direction) => {
     if (isLoading || animals.length === 0) return;
@@ -65,7 +92,7 @@ const ForestScreen = () => {
     
     try {
       const response = await matchAPI.swipe({
-        animal_id: currentAnimal._id,
+        swiped_user_id: currentAnimal._id,
         direction,
       });
 
@@ -73,10 +100,12 @@ const ForestScreen = () => {
       if (response.data.is_match) {
         setNewMatch(response.data.match_data);
         setShowMatchBurst(true);
+        loadMatches(); // Refresh matches list
         
         // Auto-hide burst after 3 seconds
         setTimeout(() => {
           setShowMatchBurst(false);
+          setSelectedMatch(response.data.match_data);
           setShowExpedition(true);
         }, 3000);
       }
@@ -120,7 +149,7 @@ const ForestScreen = () => {
   }
 
   return (
-    <ForestBackground timeOfDay={nightMode ? 'night' : 'auto'}>
+    <ForestBackground timeOfDay={nightMode ? 'night' : 'day'}>
       <Soundscape isEnabled={soundEnabled} season={currentSeason} />
       
       {/* Top Navigation Bar */}
@@ -147,7 +176,10 @@ const ForestScreen = () => {
             <NightModeEasterEgg onActivate={handleNightModeToggle} />
             
             {/* Expedition Badge */}
-            <ExpeditionBadge onClick={() => setShowExpedition(true)} />
+            <ExpeditionBadge 
+              count={activeMatches.length}
+              onClick={() => setShowActiveMatchesModal(true)} 
+            />
 
             {/* Sound Toggle */}
             <button
@@ -207,7 +239,7 @@ const ForestScreen = () => {
               <AnimatePresence mode="wait">
                 <AnimalCard
                   key={animals[currentAnimalIndex]._id}
-                  animal={animals[currentAnimalIndex]}
+                  user={animals[currentAnimalIndex]}
                   onSwipe={handleSwipe}
                 />
               </AnimatePresence>
@@ -235,7 +267,7 @@ const ForestScreen = () => {
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.5, type: "spring" }}
+        transition={{ delay: 0.5, type: "Spring" }}
         className="fixed bottom-24 right-4 z-40"
       >
         <SeasonToggle
@@ -256,12 +288,28 @@ const ForestScreen = () => {
         )}
       </AnimatePresence>
 
+      {/* Active Matches Modal */}
+      {showActiveMatchesModal && (
+        <ActiveMatchesModal
+          matches={activeMatches}
+          onClose={() => setShowActiveMatchesModal(false)}
+          onMatchSelect={(match) => {
+            setSelectedMatch(match);
+            setShowActiveMatchesModal(false);
+            setShowExpedition(true);
+          }}
+        />
+      )}
+
       {/* Expedition Party Modal */}
       <AnimatePresence>
-        {showExpedition && (
+        {showExpedition && selectedMatch && (
           <ExpeditionParty
-            match={newMatch}
-            onClose={() => setShowExpedition(false)}
+            match={selectedMatch}
+            onClose={() => {
+              setShowExpedition(false);
+              setSelectedMatch(null);
+            }}
           />
         )}
       </AnimatePresence>

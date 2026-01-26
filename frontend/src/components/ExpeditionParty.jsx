@@ -22,7 +22,7 @@ const ExpeditionParty = ({ match, onClose }) => {
     setIsSending(true);
     try {
       await matchAPI.sendMessage({
-        match_id: match.match_id,
+        match_id: match._id,
         template: selectedTemplate.text,
       });
       
@@ -85,9 +85,9 @@ const ExpeditionParty = ({ match, onClose }) => {
             />
             <div>
               <h3 className="text-white font-bold">{match.partner.display_name}</h3>
-              <p className="text-white/60 text-sm">{match.partner_animal.common_name}</p>
+              <p className="text-white/60 text-sm">@{match.partner.username}</p>
               <p className="text-white/50 text-xs mt-1">
-                Territory: {match.partner.territory_cell.cell_id}
+                Territory: {match.partner.territory_cell?.cell_id || 'Unknown'}
               </p>
             </div>
           </div>
@@ -148,7 +148,7 @@ const ExpeditionParty = ({ match, onClose }) => {
 
 ExpeditionParty.propTypes = {
   match: PropTypes.shape({
-    match_id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     partner: PropTypes.object.isRequired,
     partner_animal: PropTypes.object.isRequired,
   }),

@@ -22,11 +22,6 @@ const NightModeEasterEgg = ({ onActivate }) => {
       setIsNightMode(true);
       onActivate();
       
-      // Show success animation
-      setTimeout(() => {
-        alert('🦉 Night Mode Activated! Nocturnal animals are now visible!');
-      }, 500);
-      
       // Reset counter
       setClickCount(0);
     }

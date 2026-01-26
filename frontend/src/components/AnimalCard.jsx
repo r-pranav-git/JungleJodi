@@ -4,7 +4,8 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Heart, X, Info } from 'lucide-react';
 
-const AnimalCard = ({ animal, onSwipe }) => {
+const AnimalCard = ({ user, onSwipe }) => {
+  const animal = user.selected_animal_id;
   const controls = useAnimation();
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -64,7 +65,6 @@ const AnimalCard = ({ animal, onSwipe }) => {
         whileDrag={{ scale: 1.05 }}
         className="absolute inset-0 cursor-grab active:cursor-grabbing"
         style={{ transformStyle: 'preserve-3d' }}
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ duration: 0.6 }}
       >
         {/* Front of Card */}
@@ -75,8 +75,8 @@ const AnimalCard = ({ animal, onSwipe }) => {
           {/* Animal Image */}
           <div className="flex-1 relative mb-4 overflow-hidden rounded-lg">
             <img
-              src={animal.profile_basics.avatar_urls[0]}
-              alt={animal.common_name}
+              src={animal.selected_avatar_url}
+              alt={animal.display_name}
               className="w-full h-full object-cover"
             />
             
@@ -91,10 +91,10 @@ const AnimalCard = ({ animal, onSwipe }) => {
           {/* Animal Info */}
           <div className="mb-4">
             <h3 className="text-white text-2xl font-bold mb-1">
-              {animal.common_name}
+              {user.display_name}
             </h3>
             <p className="text-white/60 text-sm italic mb-2">
-              {animal.species_latin}
+              {animal.common_name}
             </p>
             
             {/* Tags */}
@@ -204,14 +204,10 @@ const AnimalCard = ({ animal, onSwipe }) => {
 };
 
 AnimalCard.propTypes = {
-  animal: PropTypes.shape({
+  user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    common_name: PropTypes.string.isRequired,
-    species_latin: PropTypes.string.isRequired,
-    profile_basics: PropTypes.object.isRequired,
-    ecosystem_stats: PropTypes.object.isRequired,
-    matching_profile: PropTypes.object.isRequired,
-    metadata: PropTypes.object.isRequired,
+    display_name: PropTypes.string.isRequired,
+    selected_animal_id: PropTypes.object.isRequired,
   }).isRequired,
   onSwipe: PropTypes.func.isRequired,
 };
