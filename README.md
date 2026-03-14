@@ -112,17 +112,6 @@ Some interactions are simulated rather than real-time to maintain simplicity and
 
 ---
 
-## 🎥 Demo Video
-
-🔗 **Demo Video Link:**  
-https://1drv.ms/v/c/fb3150b75b70c580/IQCdTPKcmu9nRbTaXxl-v9JoATgLRhk2loqpegeQgVbDtnQ?e=lmKlQ5
-
-**Alternative Links:**
-
-Live Application: https://jungle-jodi-theta.vercel.app/
-
----
-
 ## 🎯 Project Summary
 
 JungleJodi emphasizes creativity, storytelling, and immersive design over conventional dating app mechanics. By blending ecological logic with playful forest-themed interactions, the platform delivers a unique and memorable interpretation of matchmaking in a forest ecosystem.
