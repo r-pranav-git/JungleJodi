@@ -1,8 +1,5 @@
 # 🌲 JungleJodi
 
-## 📌 Project Poster
-![JungleJodi Poster](image.jpeg)
-
 JungleJodi is a creative full-stack web platform that reimagines modern dating applications for animals living in a forest ecosystem.  
 Instead of human-centric preferences and text-based chats, JungleJodi focuses on ecological compatibility, immersive forest interactions, and playful storytelling.
 
@@ -106,6 +103,9 @@ http://localhost:5173
 
 
 ---
+
+## 📌 Project Poster
+![JungleJodi Poster](image.jpeg)
 
 ## ⚠️ Assumptions, Limitations & Known Issues
 
